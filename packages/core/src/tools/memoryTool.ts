@@ -47,19 +47,26 @@ Do NOT use this tool:
 
 export const GEMINI_CONFIG_DIR = '.gemini';
 export const DEFAULT_CONTEXT_FILENAME = 'GEMINI.md';
+export const DEFAULT_CONTEXT_FILENAMES = ['GEMINI.md', 'AGENTS.md', 'CLAUDE.md'];
 export const MEMORY_SECTION_HEADER = '## Gemini Added Memories';
 
 // This variable will hold the currently configured filename for GEMINI.md context files.
-// It defaults to DEFAULT_CONTEXT_FILENAME but can be overridden by setGeminiMdFilename.
-let currentGeminiMdFilename: string | string[] = DEFAULT_CONTEXT_FILENAME;
+// It defaults to DEFAULT_CONTEXT_FILENAMES but can be overridden by setGeminiMdFilename.
+let currentGeminiMdFilename: string | string[] = DEFAULT_CONTEXT_FILENAMES;
 
 export function setGeminiMdFilename(newFilename: string | string[]): void {
   if (Array.isArray(newFilename)) {
     if (newFilename.length > 0) {
       currentGeminiMdFilename = newFilename.map((name) => name.trim());
+    } else {
+      // If empty array, fall back to default
+      currentGeminiMdFilename = DEFAULT_CONTEXT_FILENAMES;
     }
   } else if (newFilename && newFilename.trim() !== '') {
     currentGeminiMdFilename = newFilename.trim();
+  } else {
+    // If empty string or null/undefined, fall back to default
+    currentGeminiMdFilename = DEFAULT_CONTEXT_FILENAMES;
   }
 }
 
